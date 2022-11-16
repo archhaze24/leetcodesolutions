@@ -2,6 +2,31 @@
  * @param {string} s
  * @return {boolean}
  */
+const isValid = function (s) {
+    if (s.length === 1) return false;
+
+    const array = [];
+    let iterations = 0;
+    const openingBrackets = ['(', '[', '{'];
+    const closingBrackets = [')', ']', '}'];
+
+    for (let i = 0; i < s.length; i++) {
+        if (s[i] !== '(' && s[i] !== '[' && s[i] !== '{') {
+            iterations++;
+            const index = closingBrackets.indexOf(s[i]);
+            if (index === -1) return false;
+
+            if (array[array.length - 1] === openingBrackets[index]) array.pop();
+            else return false;
+        } else {
+            array.push(s[i]);
+        }
+    }
+
+    return (iterations === s.length / 2);
+}
+
+/*
 // FIXME: there is nested parenthesis and the solution doesn't consider them...
 const isValid = function (s) {
     let checkIsValid = false;
@@ -59,3 +84,24 @@ const isValidFix = function (s) {
 };
 
 console.log(isValidFix('(){}}{'))
+
+const isValidFix = function (s) {
+    const array = s.split('');
+    let searchingValue;
+
+    while (array.length !== 0) {
+        if (array[0] === '(') searchingValue = ')';
+        else if (array[0] === '[') searchingValue = ']';
+        else if (array[0] === '{') searchingValue = '}';
+        else return false;
+
+        array.shift();
+        const index = array.indexOf(searchingValue);
+        if (index + 1) {
+            array.splice(index, 1);
+        } else return false;
+    }
+
+    return true;
+}
+*/
